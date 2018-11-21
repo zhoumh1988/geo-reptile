@@ -8,6 +8,7 @@
         "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
         "start": "npm run build && node dist/index.js",
         "rebuild": "npm run build && node dist/rebuild.js",
+        "gd": "npm run build && node dist/gd.js",
         "test-geo": "npm run build && node dist/test.js"
     },
     "dependencies": {

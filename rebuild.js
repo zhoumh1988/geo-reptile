@@ -1,7 +1,4 @@
-import {
-    pool_connection,
-    format
-} from './plugins/DB';
+import {pool_connection, format} from './plugins/DB';
 
 const loop = (i, idArr) => {
     if (i < idArr.length) {
@@ -17,11 +14,9 @@ const loop = (i, idArr) => {
                     "geometry": {
                         "type": "MultiPolygon",
                         "coordinates": [
-                            [
-                                polygon
-                                .split(';')
-                                .map(it => it.split(',').map(lnglat => parseFloat(lnglat)))
-                            ]
+                            polygon
+                                .split("|")
+                                .map(p => p.split(';').map(it => it.split(',').map(lnglat => parseFloat(lnglat))))
                         ]
                     }
                 };
