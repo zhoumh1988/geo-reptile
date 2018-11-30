@@ -9,11 +9,12 @@
         "start": "npm run build && node dist/index.js",
         "rebuild": "npm run build && node dist/rebuild.js",
         "gd": "npm run build && node dist/gd.js",
-        "test-geo": "npm run build && node dist/test.js"
+        "test-geo": "npm run build && node dist/test.js",
+        "bounds": "npm run build && node dist/bounds.js"
     },
     "dependencies": {
         "cheerio": "^1.0.0-rc.2",
-        "file-box": "^0.8.24",
+        "file-box": "^0.8.26",
         "md5": "^2.2.1",
         "moment": "^2.22.2",
         "mysql": "^2.16.0",
