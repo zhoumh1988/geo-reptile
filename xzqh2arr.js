@@ -27,6 +27,7 @@ const judgeLevel = (it) => {
         return {
             id: code,
             pid: code.substring(0, 4),
+            proid: code.substring(0, 2),
             level: 2,
             code,
             name,

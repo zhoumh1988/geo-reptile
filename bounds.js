@@ -19,17 +19,17 @@ const loop = (i, idArr) => {
                 };
                 polygon.split("|").map(p => p.split(';').map((it, idx) => {
                     if (idx == 0) {
-                        bounds.westNorth = it.split(',');
-                        bounds.eastSouth = it.split(',');
+                        const lnglat = it.split(',').map(it => parseFloat(it));
+                        bounds.westNorth = lnglat
+                        bounds.eastSouth = lnglat
                     } else {
-                        const [lng, lat] = it.split(',');
+                        const [lng, lat] = it.split(',').map(it => parseFloat(it));
                         if (lng < bounds.westNorth[0]) bounds.westNorth[0] = lng;
                         if (lng > bounds.eastSouth[0]) bounds.eastSouth[0] = lng;
 
                         if (lat > bounds.westNorth[1]) bounds.westNorth[1] = lat;
                         if (lat < bounds.eastSouth[1]) bounds.eastSouth[1] = lat;
                     }
-
                 }));
                 bounds = bounds.westNorth.join(',') + ';' + bounds.eastSouth.join(',');
                 sqls.push(format(`UPDATE geojson_config SET bounds = ? WHERE id = ?;`, [bounds, id]));
