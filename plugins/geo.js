@@ -1,4 +1,6 @@
-import {KEY} from '../config';
+import {
+    KEY
+} from '../config';
 import request from 'request';
 const BASEURL = `https://restapi.amap.com/v3/config/district?${ [
     `key=${KEY}`, // 服务Key
@@ -43,34 +45,71 @@ export const district = (keywords) => {
     })
 }
 
-export const getBounds = (polygon) => {
+export const bounds = (path) => {
     let maxlng = 0,
         minlng = 0,
         maxlat = 0,
         minlat = 0;
-    polygon.split("|").map(p => p.split(';').map(it => {
+    path.forEach(lnglat => {
         if (maxlng === 0) {
-            const lnglat = it.split(',').map(it => parseFloat(it));
             maxlng = lnglat[0];
             minlng = lnglat[0];
             maxlat = lnglat[1];
             minlat = lnglat[1];
         } else {
-            const [lng, lat] = it.split(',').map(it => parseFloat(it));
-            if (lng > maxlng) {
-                maxlng = lng;
-            } else if (lng < minlng) {
-                minlng = lng;
-            }
-            if (lat > maxlat) {
-                maxlat = lat;
-            } else if (lat < minlat) {
-                minlat = lat;
+            if(lnglat && lnglat.length !== 0) {
+                const [lng = 0, lat = 0] = lnglat;
+                maxlng = lng > maxlng ? lng : maxlng;
+                minlng = lng < minlng ? lng : minlng;
+                maxlat = lat > maxlat ? lat : maxlat;
+                minlat = lat < minlat ? lat : minlat;
             }
         }
-    }));
+    })
     return [
         [minlng, maxlat],
+        [maxlng, minlat]
+    ];
+};
+
+export const getBounds = (polygon) => {
+    let maxlng = 0,
+        minlng = 0,
+        maxlat = 0,
+        minlat = 0;
+    polygon
+        .split("|")
+        .map(p => p.split(';').map(it => {
+            if (maxlng === 0) {
+                const lnglat = it
+                    .split(',')
+                    .map(it => parseFloat(it));
+                maxlng = lnglat[0];
+                minlng = lnglat[0];
+                maxlat = lnglat[1];
+                minlat = lnglat[1];
+            } else {
+                const [lng,
+                    lat
+                ] = it
+                    .split(',')
+                    .map(it => parseFloat(it));
+                if (lng > maxlng) {
+                    maxlng = lng;
+                } else if (lng < minlng) {
+                    minlng = lng;
+                }
+                if (lat > maxlat) {
+                    maxlat = lat;
+                } else if (lat < minlat) {
+                    minlat = lat;
+                }
+            }
+        }));
+    return [
+        [
+            minlng, maxlat
+        ],
         [maxlng, minlat]
     ];
 }
